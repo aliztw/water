@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -29,10 +30,10 @@
                         'laptop': '1366px',
                     },
                     colors: {
-                        'el-wood': '#8b934e',
-                        'el-fire': '#943425',
-                        'el-earth': '#865f41',
-                        'el-metal': '#deab47',
+                        'el-wood': '#589da9',
+                        'el-fire': '#589da9',
+                        'el-earth': '#1a3a4a',
+                        'el-metal': '#589da9',
                         'el-water': '#589da9',
                     },
                     backgroundImage: {
@@ -56,11 +57,11 @@
     <style>
         body { margin: 0; padding: 0; overflow-x: hidden; }
         
-        /* Custom Scrollbar */
+        /* Custom Scrollbar - Updated to Water Blue */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #1c1917; }
-        ::-webkit-scrollbar-thumb { background: #8b934e; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #6d743a; }
+        ::-webkit-scrollbar-thumb { background: #589da9; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #467e88; }
 
         .glass-card {
             background: rgba(255, 255, 255, 0.85);
@@ -83,34 +84,82 @@
         @media (min-width: 1366px) { .app-container { max-width: 1200px; } }
         @media (min-width: 1536px) { .app-container { max-width: 1320px; } }
 
-        /* Game Tile Styles */
-        .tile-card {
-            background-color: #ffffff;
-            border: 1px solid #e5e5e5;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            border-radius: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Noto Serif TC', serif;
-            font-weight: 700;
-            color: #44403c; /* stone-700 */
-            transition: transform 0.2s, box-shadow 0.2s;
+        /* Game Background Matrix Pattern */
+        .game-matrix-bg {
+            background-color: #faf9f6;
+            background-image: radial-gradient(#d1cfc7 1px, transparent 1px);
+            background-size: 24px 24px;
         }
-        .tile-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            z-index: 10;
+
+        /* ===== 平板版導引位置調整 ===== */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            #scrollHint {
+                position: static !important;
+                margin-top: 24px !important;
+                display: flex !important;
+                justify-content: center !important;
+                transform: none !important;
+                bottom: auto !important;
+                top: auto !important;
+            }
+            #scrollHint * {
+                transform: none !important;
+                bottom: auto !important;
+                top: auto !important;
+            }
+        }
+
+        /* ===== 日常養護：左右等高佈局 ===== */
+        @media (min-width: 768px) {
+            .wood-layout {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 32px;
+                align-items: stretch;
+            }
+            .wood-left {
+                display: flex;
+                flex-direction: column;
+                gap: 24px;
+            }
+            .tea-block {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+            .tea-block > div {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+        }
+        @media (max-width: 767px) {
+            .wood-layout {
+                display: flex;
+                flex-direction: column;
+                gap: 32px;
+            }
         }
     </style>
-<link rel="stylesheet" href="/index.css">
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0"
+  }
+}
+</script>
 </head>
-<body class="bg-stone-50 text-stone-800 selection:bg-el-wood selection:text-white">
+<body class="bg-stone-50 text-stone-800 selection:bg-el-metal selection:text-white">
 
     <!-- Navigation -->
     <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 py-6 bg-transparent">
         <div class="app-container flex justify-between items-center text-stone-800 transition-colors duration-300" id="nav-container">
             <!-- Logo -->
+            <a href="https://aliztw.github.io/2026-taiwan-aromatherapy-conference/">
             <div class="flex items-center space-x-2 cursor-pointer group" onclick="scrollToTop()">
                 <img src="https://img.shoplineapp.com/media/image_clips/693fd310ce43e58dabfdaa56/original.png?1765790479=&owner_id=5caf39294d91a10001727c79" alt="Logo" class="w-10 h-10 object-contain">
                 <div class="flex flex-col">
@@ -118,19 +167,20 @@
                     <span class="text-[10px] lg:text-xs tracking-wider opacity-80">Taiwan Aromatherapy Conference</span>
                 </div>
             </div>
+            </a>
 
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-8 nav-links">
-                <a href="#hero" class="hover:text-el-wood transition-colors text-sm lg:text-base tracking-widest font-medium scroll-link">回首頁</a>
-                <a href="#personality" class="hover:text-el-wood transition-colors text-sm lg:text-base tracking-widest font-medium scroll-link">人格特質</a>
-                <a href="#symptoms" class="hover:text-el-wood transition-colors text-sm lg:text-base tracking-widest font-medium scroll-link">常見症狀</a>
-                <a href="#care" class="hover:text-el-wood transition-colors text-sm lg:text-base tracking-widest font-medium scroll-link">日常養護</a>
-                <a href="#wood-eyes-game" class="hover:text-el-wood transition-colors text-sm lg:text-base tracking-widest font-medium scroll-link">水行遊戲</a>
+                <a href="#hero" class="hover:text-el-metal transition-colors text-sm lg:text-base tracking-widest font-medium scroll-link">回頂部</a>
+                <a href="#personality" class="hover:text-el-metal transition-colors text-sm lg:text-base tracking-widest font-medium scroll-link">人格特質</a>
+                <a href="#symptoms" class="hover:text-el-metal transition-colors text-sm lg:text-base tracking-widest font-medium scroll-link">常見症狀</a>
+                <a href="#care" class="hover:text-el-metal transition-colors text-sm lg:text-base tracking-widest font-medium scroll-link">日常養護</a>
+                <a href="#wood-eyes-game" class="hover:text-el-metal transition-colors text-sm lg:text-base tracking-widest font-medium scroll-link">水行遊戲</a>
             </div>
 
             <!-- Mobile Toggle -->
             <div class="md:hidden">
-                <button id="mobile-menu-btn" class="nav-text hover:text-el-wood transition-colors">
+                <button id="mobile-menu-btn" class="nav-text hover:text-el-metal transition-colors">
                     <i data-lucide="menu"></i>
                 </button>
             </div>
@@ -138,42 +188,39 @@
 
         <!-- Mobile Menu Dropdown -->
         <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-stone-900 border-t border-stone-800 p-6 flex flex-col space-y-4 shadow-xl z-40">
-            <a href="#hero" class="text-left text-white hover:text-amber-400 py-2 scroll-link">回首頁</a>
-            <a href="#personality" class="text-left text-white hover:text-amber-400 py-2 scroll-link">人格特質</a>
-            <a href="#symptoms" class="text-left text-white hover:text-amber-400 py-2 scroll-link">常見症狀</a>
-            <a href="#care" class="text-left text-white hover:text-amber-400 py-2 scroll-link">日常養護</a>
-            <a href="#wood-eyes-game" class="text-left text-white hover:text-amber-400 py-2 scroll-link">水行遊戲</a>
+            <a href="#hero" class="text-left text-white hover:text-el-metal py-2 scroll-link">回頂部</a>
+            <a href="#personality" class="text-left text-white hover:text-el-metal py-2 scroll-link">人格特質</a>
+            <a href="#symptoms" class="text-left text-white hover:text-el-metal py-2 scroll-link">常見症狀</a>
+            <a href="#care" class="text-left text-white hover:text-el-metal py-2 scroll-link">日常養護</a>
+            <a href="#wood-eyes-game" class="text-left text-white hover:text-el-metal py-2 scroll-link">水行遊戲</a>
         </div>
     </nav>
 
-    <!-- Wood Hero Section -->
-    <section id="hero" class="relative w-full min-h-[90vh] laptop:min-h-[80vh] flex flex-col justify-start overflow-hidden bg-stone-100 pt-36 md:pt-40 lg:pt-48 laptop:pt-36 pb-36 scroll-mt-28">
+    <!-- Water Hero Section -->
+    <section id="hero" class="relative w-full min-h-[75vh] laptop:min-h-[65vh] flex flex-col justify-center overflow-hidden bg-stone-100 pt-32 md:pt-40 pb-16 md:pb-24 scroll-mt-28">
         <!-- Background Texture & Decoration -->
         <div class="absolute inset-0 z-0 bg-wood-pattern opacity-50 pointer-events-none"></div>
-        <div class="absolute top-0 right-0 w-1/2 h-full bg-el-wood/10 -skew-x-12 translate-x-32 z-0 hidden md:block pointer-events-none"></div>
-        <div class="absolute bottom-[-100px] left-[-100px] w-96 h-96 bg-el-wood/20 rounded-full blur-[80px] pointer-events-none"></div>
-
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-el-metal/10 -skew-x-12 translate-x-32 z-0 hidden md:block pointer-events-none"></div>
         <div class="app-container relative z-10">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="grid md:grid-cols-2 gap-12 items-start">
                 
                 <!-- Left: Character & Title -->
-                <div class="flex flex-col items-center md:items-start space-y-8 animate-fade-in-up">
+                <div class="flex flex-col items-center md:items-start animate-fade-in-up">
                     <div class="relative group cursor-default">
-                        <!-- Huge Kanji -->
-                        <span class="font-serif text-[180px] md:text-[240px] laptop:text-[260px] leading-none text-el-wood opacity-90 select-none drop-shadow-2xl transition-transform duration-700 group-hover:scale-105 inline-block">水</span>
+                        <span class="font-serif text-[180px] md:text-[240px] laptop:text-[260px] leading-none text-el-metal opacity-90 select-none drop-shadow-2xl transition-transform duration-700 group-hover:scale-105 inline-block">水</span>
                         <!-- Decorative ring -->
-                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border border-el-wood/30 rounded-full animate-pulse-slow pointer-events-none"></div>
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border-el-metal/30 animate-pulse-slow pointer-events-none"></div>
                     </div>
                 </div>
 
                 <!-- Right: Attributes -->
                 <div class="space-y-10 animate-fade-in-up" style="animation-delay: 0.2s;">
-                    <div class="space-y-6 border-l-4 border-el-wood pl-8">
+                    <div class="space-y-6 border-l-4 border-el-metal pl-8">
                         <div class="space-y-2 group">
                             <h2 class="text-xl lg:text-2xl font-serif text-stone-500 tracking-widest">
                                 生命靈數
                             </h2>
-                            <p class="text-4xl md:text-5xl font-bold text-stone-800 font-serif group-hover:text-el-wood transition-colors">2、9號人</p>
+                            <p class="text-4xl md:text-5xl font-bold text-stone-800 font-serif group-hover:text-el-metal transition-colors">2、9號人</p>
                         </div>
                         
                         <!-- 臟腑與情緒 Grid 並排 -->
@@ -182,32 +229,30 @@
                                 <h2 class="text-xl lg:text-2xl font-serif text-stone-500 tracking-widest">
                                     對應臟腑
                                 </h2>
-                                <p class="text-4xl md:text-5xl font-bold text-stone-800 font-serif group-hover:text-el-wood transition-colors">腎</p>
+                                <p class="text-4xl md:text-5xl font-bold text-stone-800 font-serif group-hover:text-el-metal transition-colors">腎</p>
                             </div>
                             <div class="space-y-2 group">
                                 <h2 class="text-xl lg:text-2xl font-serif text-stone-500 tracking-widest">
                                     對應情緒
                                 </h2>
-                                <p class="text-4xl md:text-5xl font-bold text-stone-800 font-serif group-hover:text-el-wood transition-colors">恐懼</p>
+                                <p class="text-4xl md:text-5xl font-bold text-stone-800 font-serif group-hover:text-el-metal transition-colors">恐懼</p>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="pt-2 flex justify-center md:justify-start">
-                        <button data-target="wood-eyes-game" class="scroll-trigger inline-flex items-center gap-3 bg-el-wood hover:bg-stone-800 text-white px-8 py-4 rounded-full text-lg font-bold tracking-wider transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+                    <div class="pt-2 flex flex-col items-center md:items-start">
+                        <button id="ctaButton" data-target="wood-eyes-game" class="scroll-trigger inline-flex items-center gap-3 bg-el-metal hover:bg-stone-800 text-white px-8 py-4 rounded-full text-lg font-bold tracking-wider transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
                             <i data-lucide="gamepad-2" class="w-5 h-5"></i>
                             <span>立即體驗遊戲</span>
                         </button>
+
+                        <!-- Scroll Hint -->
+                        <div id="scrollHint" class="mt-8 md:mt-16 lg:mt-20 flex flex-col items-center animate-bounce text-el-metal cursor-pointer scroll-trigger" data-target="personality">
+                            <span class="text-xs tracking-widest mb-1 whitespace-nowrap">向下探索</span>
+                            <i data-lucide="arrow-down" class="w-6 h-6"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <!-- Scroll Hint: Optimized for Horizontal Centering and Adjusted Vertical Position -->
-        <div class="absolute bottom-4 md:bottom-28 lg:bottom-24 left-1/2 -translate-x-1/2 z-20">
-            <div class="flex flex-col items-center animate-bounce text-el-wood cursor-pointer scroll-trigger" data-target="personality">
-                <span class="text-xs tracking-widest mb-2 whitespace-nowrap">向下探索</span>
-                <i data-lucide="arrow-right" class="w-5 h-5 rotate-90"></i>
             </div>
         </div>
     </section>
@@ -219,9 +264,9 @@
                 
                 <!-- Header -->
                 <div class="md:w-1/3">
-                    <div class="inline-block px-4 py-1 bg-el-wood text-white text-sm font-bold tracking-widest rounded-full mb-4 shadow-md">人格特質</div>
+                    <div class="inline-block px-4 py-1 bg-el-metal text-white text-sm font-bold tracking-widest rounded-full mb-4 shadow-md">人格特質</div>
                     <h2 class="text-4xl font-serif font-bold text-stone-800 leading-tight">
-                        敏感 <span class="text-el-wood">×</span> 含蓄 <br/> 
+                        敏感 <span class="text-el-metal">×</span> 含蓄 <br/> 
                         喜安靜觀察
                     </h2>
                 </div>
@@ -231,11 +276,10 @@
                     <div class="p-8 bg-stone-50 rounded-3xl border border-stone-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                         <p class="text-xl text-stone-700 leading-relaxed font-serif">
                             你是「話不多，但總能看穿氣氛」的人，洞察力強、感知力敏銳，喜歡先觀察後行動。你習慣做足準備，也習慣為未來設想各種可能。
-
                         </p>
                     </div>
-                    <div class="p-8 bg-white rounded-3xl border-2 border-stone-100 hover:border-el-wood/30 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                        <div class="flex items-center gap-2 mb-3 text-el-fire">
+                    <div class="p-8 bg-white rounded-3xl border-2 border-stone-100 hover:border-el-metal/30 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                        <div class="flex items-center gap-2 mb-3 text-el-metal">
                             <i data-lucide="alert-triangle" class="w-5 h-5"></i>
                             <span class="font-bold tracking-wider text-sm uppercase">注意</span>
                         </div>
@@ -250,13 +294,11 @@
 
     <!-- Symptoms Section -->
     <section id="symptoms" class="py-24 bg-stone-100 relative overflow-hidden scroll-mt-28">
-        <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-el-wood to-emerald-800 opacity-30"></div>
-        <div class="absolute -left-20 top-40 w-80 h-80 bg-el-wood/10 rounded-full blur-3xl"></div>
-        
+        <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-el-metal to-stone-400 opacity-30"></div>
         <div class="app-container relative z-10">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-serif font-bold text-stone-800 mb-4 flex items-center justify-center gap-3">
-                    <span class="w-2 h-8 bg-el-wood block rounded-full"></span>
+                    <span class="w-2 h-8 bg-el-metal block rounded-full"></span>
                     常見生理症狀
                 </h2>
                 <div class="max-w-xl mx-auto space-y-4">
@@ -271,29 +313,29 @@
 
             <!-- Mobile View: Cards -->
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:hidden">
-                <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center space-x-4 border-l-4 border-el-wood">
-                    <div class="text-el-wood"><i data-lucide="eye" class="w-8 h-8"></i></div>
-                    <div><h3 class="font-bold text-stone-800">眼睛</h3><p class="text-stone-500 text-sm">易乾澀、模糊</p></div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center space-x-4 border-l-4 border-el-metal">
+                    <div class="text-el-metal"><i data-lucide="ear" class="w-8 h-8"></i></div>
+                    <div><h3 class="font-bold text-stone-800">耳朵</h3><p class="text-stone-500 text-sm">偶爾會耳鳴</p></div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center space-x-4 border-l-4 border-el-wood">
-                    <div class="text-el-wood"><i data-lucide="brain" class="w-8 h-8"></i></div>
-                    <div><h3 class="font-bold text-stone-800">頭部</h3><p class="text-stone-500 text-sm">易偏頭痛、半夜醒來</p></div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center space-x-4 border-l-4 border-el-metal">
+                    <div class="text-el-metal"><i data-lucide="brain" class="w-8 h-8"></i></div>
+                    <div><h3 class="font-bold text-stone-800">頭部</h3><p class="text-stone-500 text-sm">頭暈眼花、失眠、記憶力差</p></div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center space-x-4 border-l-4 border-el-wood">
-                    <div class="text-el-wood"><i data-lucide="heart" class="w-8 h-8"></i></div>
-                    <div><h3 class="font-bold text-stone-800">心肺</h3><p class="text-stone-500 text-sm">易胸悶</p></div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center space-x-4 border-l-4 border-el-metal">
+                    <div class="text-el-metal"><i data-lucide="droplet" class="w-8 h-8"></i></div>
+                    <div><h3 class="font-bold text-stone-800">膀胱</h3><p class="text-stone-500 text-sm">夜尿頻繁(一夜大於2次)</p></div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center space-x-4 border-l-4 border-el-wood">
-                    <div class="text-el-wood"><i data-lucide="activity" class="w-8 h-8"></i></div>
-                    <div><h3 class="font-bold text-stone-800">腸胃</h3><p class="text-stone-500 text-sm">食慾差、易脹氣</p></div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center space-x-4 border-l-4 border-el-metal">
+                    <div class="text-el-metal"><i data-lucide="activity" class="w-8 h-8"></i></div>
+                    <div><h3 class="font-bold text-stone-800">腸胃</h3><p class="text-stone-500 text-sm"消化慢、便秘</p></div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center space-x-4 border-l-4 border-el-wood">
-                    <div class="text-el-wood"><i data-lucide="user" class="w-8 h-8"></i></div>
-                    <div><h3 class="font-bold text-stone-800">皮膚</h3><p class="text-stone-500 text-sm">指甲較薄脆、暗沉</p></div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center space-x-4 border-l-4 border-el-metal">
+                    <div class="text-el-metal"><i data-lucide="person-standing" class="w-8 h-8"></i></div>
+                    <div><h3 class="font-bold text-stone-800">全身</h3><p class="text-stone-500 text-sm">免疫偏弱、手腳冰冷、易疲勞、畏寒怕冷、腰膝酸軟、免疫差</p></div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center space-x-4 border-l-4 border-el-wood">
-                    <div class="text-el-wood"><i data-lucide="activity" class="w-8 h-8"></i></div>
-                    <div><h3 class="font-bold text-stone-800">全身</h3><p class="text-stone-500 text-sm">筋骨痠痛與僵硬</p></div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center space-x-4 border-l-4 border-el-metal">
+                    <div class="text-el-metal"><i data-lucide="smile" class="w-8 h-8"></i></div>
+                    <div><h3 class="font-bold text-stone-800">嘴巴</h3><p class="text-stone-500 text-sm">易口乾</p></div>
                 </div>
             </div>
 
@@ -305,41 +347,41 @@
                <!-- Central Image Container -->
                <div class="relative z-10 h-[550px] flex items-center justify-center">
                   <img 
-                    src="https://img.shoplineapp.com/media/image_clips/693bc5e57432036e846cf6f1/original.jpg?1765524965=&owner_id=5caf39294d91a10001727c79" 
+                    src="https://aliztw.github.io/water/water-body.jpg" 
                     alt="Body Meridians" 
                     class="h-full w-auto object-contain mix-blend-multiply opacity-95"
                   >
                </div>
 
                <!-- Floating Symptom Cards -->
-               <div class="absolute z-20 top-[10%] left-[20%] glass-card p-4 rounded-xl shadow-lg border border-stone-100 flex items-center gap-3 max-w-[200px] hover:scale-110 transition-transform duration-300 cursor-pointer group">
-                  <div class="bg-el-wood/10 p-2 rounded-full text-el-wood group-hover:bg-el-wood group-hover:text-white transition-colors"><i data-lucide="eye" class="w-6 h-6"></i></div>
-                  <div><h4 class="font-serif font-bold text-stone-800 text-sm">眼睛</h4><p class="text-xs text-stone-500">易乾澀、模糊</p></div>
+               <div class="absolute z-20 top-[10%] left-[25%] glass-card p-4 rounded-xl shadow-lg border border-stone-100 flex items-center gap-3 max-w-[200px] hover:scale-110 transition-transform duration-300 cursor-pointer group">
+                  <div class="bg-el-metal/10 p-2 rounded-full text-el-metal group-hover:bg-el-metal group-hover:text-white transition-colors"><i data-lucide="ear" class="w-6 h-6"></i></div>
+                  <div><h4 class="font-serif font-bold text-stone-800 text-sm">耳朵</h4><p class="text-xs text-stone-500">偶爾會耳鳴</p></div>
                </div>
 
                <div class="absolute z-20 top-[5%] right-[25%] glass-card p-4 rounded-xl shadow-lg border border-stone-100 flex items-center gap-3 max-w-[200px] hover:scale-110 transition-transform duration-300 cursor-pointer group">
-                  <div class="bg-el-wood/10 p-2 rounded-full text-el-wood group-hover:bg-el-wood group-hover:text-white transition-colors"><i data-lucide="brain" class="w-6 h-6"></i></div>
-                  <div><h4 class="font-serif font-bold text-stone-800 text-sm">頭部</h4><p class="text-xs text-stone-500">易偏頭痛</p></div>
+                  <div class="bg-el-metal/10 p-2 rounded-full text-el-metal group-hover:bg-el-metal group-hover:text-white transition-colors"><i data-lucide="brain" class="w-6 h-6"></i></div>
+                  <div><h4 class="font-serif font-bold text-stone-800 text-sm">頭部</h4><p class="text-xs text-stone-500">頭暈眼花、失眠、記憶力差</p></div>
                </div>
 
-               <div class="absolute z-20 top-[30%] right-[20%] glass-card p-4 rounded-xl shadow-lg border border-stone-100 flex items-center gap-3 max-w-[200px] hover:scale-110 transition-transform duration-300 cursor-pointer group">
-                  <div class="bg-el-wood/10 p-2 rounded-full text-el-wood group-hover:bg-el-wood group-hover:text-white transition-colors"><i data-lucide="heart" class="w-6 h-6"></i></div>
-                  <div><h4 class="font-serif font-bold text-stone-800 text-sm">心肺</h4><p class="text-xs text-stone-500">易胸悶</p></div>
+               <div class="absolute z-20 top-[35%] right-[25%] glass-card p-4 rounded-xl shadow-lg border border-stone-100 flex items-center gap-3 max-w-[200px] hover:scale-110 transition-transform duration-300 cursor-pointer group">
+                  <div class="bg-el-metal/10 p-2 rounded-full text-el-metal group-hover:bg-el-metal group-hover:text-white transition-colors"><i data-lucide="smile" class="w-6 h-6"></i></div>
+                  <div><h4 class="font-serif font-bold text-stone-800 text-sm">嘴巴</h4><p class="text-xs text-stone-500">易口乾</p></div>
                </div>
 
-               <div class="absolute z-20 bottom-[35%] left-[15%] glass-card p-4 rounded-xl shadow-lg border border-stone-100 flex items-center gap-3 max-w-[200px] hover:scale-110 transition-transform duration-300 cursor-pointer group">
-                  <div class="bg-el-wood/10 p-2 rounded-full text-el-wood group-hover:bg-el-wood group-hover:text-white transition-colors"><i data-lucide="activity" class="w-6 h-6"></i></div>
-                  <div><h4 class="font-serif font-bold text-stone-800 text-sm">腸胃</h4><p class="text-xs text-stone-500">食慾差</p></div>
+               <div class="absolute z-20 bottom-[50%] left-[20%] glass-card p-4 rounded-xl shadow-lg border border-stone-100 flex items-center gap-3 max-w-[200px] hover:scale-110 transition-transform duration-300 cursor-pointer group">
+                  <div class="bg-el-metal/10 p-2 rounded-full text-el-metal group-hover:bg-el-metal group-hover:text-white transition-colors"><i data-lucide="activity" class="w-6 h-6"></i></div>
+                  <div><h4 class="font-serif font-bold text-stone-800 text-sm">腸胃</h4><p class="text-xs text-stone-500">消化慢、便秘</p></div>
                </div>
 
-               <div class="absolute z-20 bottom-[15%] left-[25%] glass-card p-4 rounded-xl shadow-lg border border-stone-100 flex items-center gap-3 max-w-[200px] hover:scale-110 transition-transform duration-300 cursor-pointer group">
-                  <div class="bg-el-wood/10 p-2 rounded-full text-el-wood group-hover:bg-el-wood group-hover:text-white transition-colors"><i data-lucide="user" class="w-6 h-6"></i></div>
-                  <div><h4 class="font-serif font-bold text-stone-800 text-sm">皮膚</h4><p class="text-xs text-stone-500">指甲脆、暗沉</p></div>
+               <div class="absolute z-20 bottom-[15%] left-[20%] glass-card p-4 rounded-xl shadow-lg border border-stone-100 flex items-center gap-3 max-w-[200px] hover:scale-110 transition-transform duration-300 cursor-pointer group">
+                  <div class="bg-el-metal/10 p-2 rounded-full text-el-metal group-hover:bg-el-metal group-hover:text-white transition-colors"><i data-lucide="droplet" class="w-6 h-6"></i></div>
+                  <div><h4 class="font-serif font-bold text-stone-800 text-sm">膀胱</h4><p class="text-xs text-stone-500">夜尿頻繁(一夜大於2次)</p></div>
                </div>
 
-               <div class="absolute z-20 bottom-[10%] right-[25%] glass-card p-4 rounded-xl shadow-lg border border-stone-100 flex items-center gap-3 max-w-[200px] hover:scale-110 transition-transform duration-300 cursor-pointer group">
-                  <div class="bg-el-wood/10 p-2 rounded-full text-el-wood group-hover:bg-el-wood group-hover:text-white transition-colors"><i data-lucide="activity" class="w-6 h-6"></i></div>
-                  <div><h4 class="font-serif font-bold text-stone-800 text-sm">全身</h4><p class="text-xs text-stone-500">筋骨痠痛</p></div>
+               <div class="absolute z-20 bottom-[25%] right-[25%] glass-card p-4 rounded-xl shadow-lg border border-stone-100 flex items-center gap-3 max-w-[200px] hover:scale-110 transition-transform duration-300 cursor-pointer group">
+                  <div class="bg-el-metal/10 p-2 rounded-full text-el-metal group-hover:bg-el-metal group-hover:text-white transition-colors"><i data-lucide="person-standing" class="w-6 h-6"></i></div>
+                  <div><h4 class="font-serif font-bold text-stone-800 text-sm">全身</h4><p class="text-xs text-stone-500">免疫偏弱、手腳冰冷、易疲勞、畏寒怕冷、腰膝酸軟、免疫差</p></div>
                </div>
             </div>
         </div>
@@ -352,61 +394,61 @@
             <!-- Title -->
             <div class="text-center">
                 <h2 class="text-4xl md:text-5xl font-serif font-bold text-stone-800">
-                    <span class="text-el-wood">水</span> 行人日常養護
+                    <span class="text-el-metal">水</span> 行人日常養護
                 </h2>
-                <div class="w-24 h-1 bg-gradient-to-r from-el-wood to-emerald-800 mx-auto mt-6 rounded-full"></div>
+                <div class="w-24 h-1 bg-gradient-to-r from-el-metal to-stone-800 mx-auto mt-6 rounded-full"></div>
             </div>
 
             <!-- 1. Acupoints & Reflexology Wrapper (Equal Height Layout) -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-                <!-- Column 1: 太衝穴 -->
+                <!-- Column 1: 湧泉穴 -->
                 <div class="flex flex-col">
                     <div class="space-y-6 flex flex-col h-full">
                         <h3 class="flex items-center gap-3 text-2xl font-serif font-bold text-stone-700">
-                            <div class="w-1.5 h-8 bg-el-wood"></div> 養腎推薦穴位
+                            <div class="w-1.5 h-8 bg-el-metal"></div> 養腎推薦穴位
                         </h3>
-                        <div class="bg-stone-50 p-8 rounded-[2rem] border border-stone-200 hover:border-el-wood transition-all duration-300 hover:shadow-lg group flex flex-col h-full">
+                        <div class="bg-stone-50 p-8 rounded-[2rem] border border-stone-200 hover:border-el-metal transition-all duration-300 hover:shadow-lg group flex flex-col h-full">
                             <div class="flex items-start gap-4 mb-4 flex-shrink-0">
-                                <div class="bg-el-wood text-white px-4 py-1 rounded-full text-lg font-bold shadow-md">腎俞穴</div>
+                                <div class="bg-el-metal text-white px-4 py-1 rounded-full text-lg font-bold shadow-md">腎俞穴</div>
                                 <span class="text-stone-500 text-sm mt-1 bg-white px-3 py-1 rounded-full">元氣補給點</span>
                             </div>
-                            <p class="text-stone-600 mb-6 leading-relaxed flex-shrink-0">滋補腎氣、增強免疫<br>第2腰椎棘突下 左右旁開兩指寬</p>
+                            <p class="text-stone-600 mb-6 leading-relaxed flex-shrink-0">滋補腎氣、增強免疫<br>位於第2腰椎棘突下，左右旁開兩指寬。</p>
                             <div class="bg-stone-200 rounded-2xl relative block overflow-visible flex-1 flex items-center justify-center">
-                                 <img src="https://img.shoplineapp.com/media/image_clips/693bcbf902f03d6580874d58/original.jpg?1765526520=&owner_id=5caf39294d91a10001727c79" alt="Foot Massage" class="block w-full h-auto rounded-2xl opacity-90 group-hover:scale-105 transition-transform duration-700"/>
+                                 <img src="https://aliztw.github.io/water/water-腎俞穴.jpg" alt="Acupoint 1" class="block w-full h-auto rounded-2xl opacity-90 group-hover:scale-105 transition-transform duration-700"/>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Column 2: 期門穴 -->
+                <!-- Column 2: 太溪穴 -->
                 <div class="flex flex-col">
                     <div class="space-y-6 flex flex-col h-full">
                         <!-- Desktop Placeholder to align cards top -->
                         <div class="hidden lg:flex items-center gap-3 text-2xl font-serif font-bold invisible select-none">
                             <div class="w-1.5 h-8"></div> &nbsp;
                         </div>
-                        <div class="bg-stone-50 p-8 rounded-[2rem] border border-stone-200 hover:border-el-wood transition-all duration-300 hover:shadow-lg group flex flex-col h-full qimen-card">
+                        <div class="bg-stone-50 p-8 rounded-[2rem] border border-stone-200 hover:border-el-metal transition-all duration-300 hover:shadow-lg group flex flex-col h-full qimen-card">
                             <div class="flex items-start gap-4 mb-4 flex-shrink-0">
-                                <div class="bg-el-wood text-white px-4 py-1 rounded-full text-lg font-bold shadow-md">湧泉穴</div>
+                                <div class="bg-el-metal text-white px-4 py-1 rounded-full text-lg font-bold shadow-md">湧泉穴</div>
                                 <span class="text-stone-500 text-sm mt-1 bg-white px-3 py-1 rounded-full">補腎啟動鍵</span>
                             </div>
-                            <p class="text-stone-600 mb-6 leading-relaxed flex-shrink-0">溫腎固本、引氣下行<br>腳底前1/3凹陷處</p>
+                            <p class="text-stone-600 mb-6 leading-relaxed flex-shrink-0">溫腎固本、引氣下行<br>位於腳底前1/3凹陷處。</p>
                             <div class="bg-stone-200 rounded-2xl relative block overflow-visible flex-1 flex items-center justify-center">
-                                <img src="https://img.shoplineapp.com/media/image_clips/693bcc00c8801989c0f49b41/original.jpg?1765526528=&owner_id=5caf39294d91a10001727c79" alt="Body Massage" class="block w-full h-auto rounded-2xl opacity-90 group-hover:scale-105 transition-transform duration-700"/>
+                                <img src="https://aliztw.github.io/water/water-湧泉穴.jpg" alt="Acupoint 2" class="block w-full h-auto rounded-2xl opacity-90 group-hover:scale-105 transition-transform duration-700"/>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Column 3: 手掌對應反射區 -->
+                <!-- Column 3: 足底對應反射區 -->
                 <div class="flex flex-col">
                     <div class="space-y-6 flex flex-col h-full">
                          <h3 class="flex items-center gap-3 text-2xl font-serif font-bold text-stone-700">
-                            <div class="w-1.5 h-8 bg-el-wood"></div> 手掌對應反射區
+                            <div class="w-1.5 h-8 bg-el-metal"></div> 手掌對應反射區
                          </h3>
-                         <div class="bg-stone-50 p-8 rounded-[2rem] border border-stone-200 hover:border-el-wood transition-all duration-300 hover:shadow-lg group w-full flex flex-col h-full">
-                            <div class="rounded-2xl relative block overflow-hidden bg-[#fef4ed] flex-1 flex items-center justify-center">
-                                <img src="https://img.shoplineapp.com/media/image_clips/693bcdc0dbc2d290668626ae/original.jpg?1765526975=&owner_id=5caf39294d91a10001727c79" alt="Hand Reflexology" class="block w-full h-auto object-contain rounded-2xl opacity-90 group-hover:scale-105 transition-transform duration-700 bg-[#fef4ed]"/>
+                         <div class="bg-stone-50 p-8 rounded-[2rem] border border-stone-200 hover:border-el-metal transition-all duration-300 hover:shadow-lg group w-full flex flex-col h-full">
+                            <div class="rounded-2xl relative block overflow-hidden bg-stone-100 flex-1 flex items-center justify-center">
+                                <img src="https://aliztw.github.io/water/water-hand.jpg" alt="Foot Reflexology" class="block w-full h-auto object-contain rounded-2xl opacity-90 group-hover:scale-105 transition-transform duration-700"/>
                             </div>
                         </div>
                     </div>
@@ -414,78 +456,89 @@
             </div>
 
             <!-- 2. Oils & Tea -->
-            <div class="grid lg:grid-cols-2 gap-12 items-start bg-gradient-to-br from-el-wood/5 to-emerald-900/5 rounded-[3rem] p-8 md:p-16 border border-stone-100">
-                <!-- Left Column: Oils + Adjustments -->
-                <div class="space-y-12">
+            <div class="wood-layout bg-gradient-to-br from-el-metal/5 to-stone-800/5 rounded-[3rem] p-8 md:p-16 border border-stone-100">
+                <!-- 左欄: 推薦精華 + 日常調整 -->
+                <div class="wood-left">
                     <!-- Oils Block -->
                     <div class="space-y-8">
                         <h3 class="flex items-center gap-3 text-2xl font-serif font-bold text-stone-700">
-                            <div class="w-1.5 h-8 bg-el-wood"></div> 水行人推薦精華
+                            <div class="w-1.5 h-8 bg-el-metal"></div> 水行人推薦精華
                         </h3>
                         <div class="grid grid-cols-2 gap-6">
                             <!-- Oil 1 -->
-                            <a href="https://www.aliztwshop.com/products/emotion-essence-oil-series-1" target="_blank" class="text-center group cursor-pointer block">
+                            <div class="text-center group block">
                                 <div class="bg-white rounded-2xl p-6 shadow-sm mb-4 group-hover:-translate-y-2 transition-transform duration-300 border border-stone-100">
-                                    <img src="https://img.shoplineapp.com/media/image_clips/693bcdc8b1d2cbb6a92e1a33/original.jpg?1765526984=&owner_id=5caf39294d91a10001727c79" alt="Oil 1" class="h-32 mx-auto object-contain mix-blend-multiply opacity-80 group-hover:opacity-100 transition-opacity" />
+                                    <img src="https://aliztw.github.io/fire/fire-oil.jpg" alt="Oil 1" class="h-32 mx-auto object-contain mix-blend-multiply opacity-80 group-hover:opacity-100 transition-opacity" />
                                 </div>
-                                <h4 class="text-el-wood font-bold text-lg">燃·煦陽</h4>
-                                <p class="text-stone-500 text-sm mt-1">點燃熱力<br/>溫暖回神</p>
-                            </a>
+                                <h4 class="text-el-metal font-bold text-lg">燃 · 煦陽</h4>
+                                <p class="text-stone-500 text-sm mt-1 whitespace-pre-line">點燃熱力、溫暖回神</p>
+                                <div class="mt-4">
+                                    <a href="https://www.aliztwshop.com/products/emotion-essence-oil-series-1" target="_blank" class="inline-flex items-center justify-center gap-1 bg-el-metal hover:bg-stone-800 text-white px-5 py-2 rounded-full text-xs font-bold tracking-widest transition-all shadow-md group-hover:shadow-lg">
+                                        <span>點我了解</span>
+                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                                    </a>
+                                </div>
+                            </div>
                             <!-- Oil 2 -->
-                            <a href="https://www.aliztwshop.com/products/emotion-essence-oil-series-8" target="_blank" class="text-center group cursor-pointer block">
+                            <div class="text-center group block">
                                 <div class="bg-white rounded-2xl p-6 shadow-sm mb-4 group-hover:-translate-y-2 transition-transform duration-300 border border-stone-100">
-                                    <img src="https://img.shoplineapp.com/media/image_clips/693bcdc8b1d2cbb6a92e1a33/original.jpg?1765526984=&owner_id=5caf39294d91a10001727c79" alt="Oil 2" class="h-32 mx-auto object-contain mix-blend-multiply opacity-80 group-hover:opacity-100 transition-opacity" />
+                                    <img src="https://aliztw.github.io/fire/fire-oil.jpg" alt="Oil 2" class="h-32 mx-auto object-contain mix-blend-multiply opacity-80 group-hover:opacity-100 transition-opacity" />
                                 </div>
-                                <h4 class="text-el-wood font-bold text-lg">舒·稟澄</h4>
-                                <p class="text-stone-500 text-sm mt-1">舒緩敏感<br/>穩定自我</p>
-                            </a>
+                                <h4 class="text-el-metal font-bold text-lg">舒 · 稟澄</h4>
+                                <p class="text-stone-500 text-sm mt-1 whitespace-pre-line">舒緩敏感、穩定自我</p>
+                                <div class="mt-4">
+                                    <a href="https://www.aliztwshop.com/products/emotion-essence-oil-series-8" target="_blank" class="inline-flex items-center justify-center gap-1 bg-el-metal hover:bg-stone-800 text-white px-5 py-2 rounded-full text-xs font-bold tracking-widest transition-all shadow-md group-hover:shadow-lg">
+                                        <span>點我了解</span>
+                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Adjustments Block -->
                     <div class="space-y-6 pt-8 border-t border-stone-200/50">
                         <h3 class="flex items-center gap-3 text-2xl font-serif font-bold text-stone-700">
-                            <div class="w-1.5 h-8 bg-el-wood"></div> 日常調整
+                            <div class="w-1.5 h-8 bg-el-metal"></div> 日常調整
                         </h3>
                         <ul class="space-y-4 text-stone-600">
-                            <li class="p-4 bg-white rounded-xl shadow-sm border border-stone-100 hover:border-el-wood/50 transition-colors flex gap-3">
-                                <i data-lucide="check-circle-2" class="w-5 h-5 text-el-wood flex-shrink-0 mt-0.5"></i>
+                            <li class="p-4 bg-white rounded-xl shadow-sm border border-stone-100 hover:border-el-metal/50 transition-colors flex gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-el-metal flex-shrink-0 mt-0.5"></i>
                                 <span>早上曬曬太陽，為身體補點溫暖的能量。</span>
                             </li>
-                            <li class="p-4 bg-white rounded-xl shadow-sm border border-stone-100 hover:border-el-wood/50 transition-colors flex gap-3">
-                                <i data-lucide="check-circle-2" class="w-5 h-5 text-el-wood flex-shrink-0 mt-0.5"></i>
-                                <span>減少內心模擬對話，把注意力帶回當下。</span>
+                            <li class="p-4 bg-white rounded-xl shadow-sm border border-stone-100 hover:border-el-metal/50 transition-colors flex gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-el-metal flex-shrink-0 mt-0.5"></i>
+                                <span>減少內心模擬對話，把注意力帶回當下。。</span>
                             </li>
-                            <li class="p-4 bg-white rounded-xl shadow-sm border border-stone-100 hover:border-el-wood/50 transition-colors flex gap-3">
-                                <i data-lucide="check-circle-2" class="w-5 h-5 text-el-wood flex-shrink-0 mt-0.5"></i>
-                                <span>情建立「穩定日常儀式」，讓你在變動中安心扎根。</span>
+                            <li class="p-4 bg-white rounded-xl shadow-sm border border-stone-100 hover:border-el-metal/50 transition-colors flex gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-el-metal flex-shrink-0 mt-0.5"></i>
+                                <span>建立「穩定日常儀式」，讓你在變動中安心扎根。</span>
                             </li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- Right Column: Detailed Tea Card -->
-                <div class="space-y-8 h-auto">
-                    <h3 class="flex items-center gap-3 text-2xl font-serif font-bold text-stone-700">
-                        <div class="w-1.5 h-8 bg-el-wood"></div> 推薦茶飲
+                <!-- 右欄: 推薦茶飲 -->
+                <div class="tea-block">
+                    <h3 class="flex items-center gap-3 text-2xl font-serif font-bold text-stone-700 mb-8">
+                        <div class="w-1.5 h-8 bg-el-metal"></div> 推薦茶飲
                     </h3>
-                    <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-stone-100 space-y-6 h-auto flex flex-col">
-                        <div class="rounded-2xl overflow-hidden mb-6 flex-shrink-0 flex justify-center bg-white py-4">
-                             <img src="https://img.shoplineapp.com/media/image_clips/693bcdcf557a9101b03cc8df/original.jpg?1765526990=&owner_id=5caf39294d91a10001727c79" alt="靚顏茶" class="h-48 w-auto object-contain">
+                    <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-stone-100 flex flex-col">
+                        <div class="rounded-2xl overflow-hidden mb-16 flex justify-center py-4">
+                             <img src="https://aliztw.github.io/water/water-tea.jpg" alt="智盛湯" class="h-64 w-auto object-contain">
                         </div>
                         
-                        <div>
+                        <div class="mb-6">
                              <div class="flex items-center justify-between mb-2">
                                 <h4 class="font-bold text-stone-800 text-2xl font-serif">智盛湯</h4>
-                                <span class="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs rounded-full border border-emerald-100 font-bold tracking-wider">疏肝理氣</span>
                              </div>
-                             <p class="text-stone-500 text-sm leading-relaxed font-medium">
+                             <p class="text-stone-500 text-md leading-relaxed font-medium">
                                 肉桂、桑椹、枸杞、何首烏、肉蓯蓉
                              </p>
                         </div>
 
-                        <div class="pt-6 flex-grow flex items-end">
-                            <a href="https://www.herb-republic.com/products/%E6%99%BA%E7%9B%9B%E6%B9%AF" target="_blank" class="w-full inline-flex items-center justify-center gap-2 bg-el-wood hover:bg-stone-800 text-white px-8 py-4 rounded-full text-lg font-bold tracking-wider transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+                        <div class="mt-auto pt-6">
+                            <a href="https://www.herb-republic.com/products/%E6%99%BA%E7%9B%9B%E6%B9%AF" target="_blank" class="w-full inline-flex items-center justify-center gap-2 bg-el-metal hover:bg-stone-800 text-white px-8 py-4 rounded-full text-lg font-bold tracking-wider transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
                                 <span>點我了解</span>
                                 <i data-lucide="arrow-right" class="w-4 h-4"></i>
                             </a>
@@ -496,83 +549,32 @@
 
             <!-- 3. Footer Quote -->
             <div class="flex justify-center">
-                <div class="bg-[#e9edc9] px-8 py-12 md:px-20 md:py-16 rounded-[3rem] max-w-4xl text-center relative overflow-hidden shadow-xl">
-                    <div class="absolute top-[-20px] left-[-20px] text-white/40">
-                        <i data-lucide="flower-2" class="w-32 h-32"></i>
-                    </div>
-                    <div class="absolute bottom-[-20px] right-[-20px] text-white/40 transform rotate-180">
-                        <i data-lucide="flower-2" class="w-32 h-32"></i>
-                    </div>
+                <div class="bg-el-metal/10 px-8 py-12 md:px-20 md:py-16 rounded-[3rem] max-w-4xl text-center relative overflow-hidden shadow-xl border border-el-metal/20">
                     <h3 class="text-2xl font-serif font-bold text-stone-800 mb-6 relative z-10">給水行人的小提醒</h3>
                     <p class="text-lg md:text-2xl text-stone-700 font-serif leading-loose italic relative z-10">
                         「未來不用一次想完，<br class="hidden md:block">腳下的每一步就是答案。」
                     </p>
                 </div>
             </div>
-
         </div>
     </section>
 
     <!-- Game Section -->
     <section id="wood-eyes-game" class="py-24 bg-stone-100 relative overflow-hidden scroll-mt-28">
-        <div class="absolute -right-20 top-20 w-80 h-80 bg-el-wood/10 rounded-full blur-3xl"></div>
-        
         <div class="app-container relative z-10">
              <div class="bg-white rounded-[3rem] p-8 md:p-16 shadow-xl border border-stone-200 flex flex-col md:flex-row items-center gap-12 overflow-hidden relative">
                 <div class="absolute inset-0 opacity-30 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
                 
                 <div class="w-full md:w-1/2 relative z-10">
-                    <div class="bg-[#fcfaf5] p-6 md:p-8 rounded-[2rem] shadow-inner border border-stone-200 cursor-pointer group hover:scale-[1.02] transition-transform duration-500 relative overflow-hidden" onclick="window.open('https://rabb31k.github.io/wood-game/', '_blank')">
-                        <div class="grid grid-cols-6 gap-2 md:gap-3 game-grid">
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none relative">
-                                村
-                                <div class="absolute inset-0 border-[3px] md:border-4 border-emerald-500 rounded-full scale-90 opacity-80"></div>
-                            </div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none relative">
-                                村
-                                <div class="absolute inset-0 border-[3px] md:border-4 border-emerald-500 rounded-full scale-90 opacity-80"></div>
-                            </div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none relative">
-                                村
-                                <div class="absolute inset-0 border-[3px] md:border-4 border-emerald-500 rounded-full scale-90 opacity-80"></div>
-                            </div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                            <div class="aspect-square tile-card text-2xl md:text-3xl select-none">材</div>
-                        </div>
+                    <!-- Schulte Grid Visual Style Area -->
+                    <div class="aspect-square w-full max-w-[450px] mx-auto game-matrix-bg rounded-[2rem] shadow-inner border border-stone-200 cursor-pointer group hover:scale-[1.02] transition-transform duration-500 relative overflow-hidden" onclick="window.open('https://aliztw.github.io/water-game/', '_blank')">
+                        
+                            <img src="https://aliztw.github.io/water/water-game.png" class="w-full h-full object-cover rounded-[2rem]">
+                        
+                        
                         <div class="absolute inset-0 bg-stone-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[2rem] flex items-center justify-center backdrop-blur-[1px]">
                              <div class="bg-white/95 px-8 py-4 rounded-full shadow-2xl flex items-center gap-3 transform translate-y-8 group-hover:translate-y-0 transition-all duration-300 border border-stone-100">
-                                 <div class="bg-el-wood text-white rounded-full p-1"><i data-lucide="play" class="w-5 h-5 ml-1"></i></div>
+                                 <div class="bg-el-metal text-white rounded-full p-1"><i data-lucide="play" class="w-5 h-5 ml-1"></i></div>
                                  <span class="font-bold text-stone-800 tracking-widest text-lg">立即挑戰</span>
                              </div>
                         </div>
@@ -581,18 +583,18 @@
                 
                 <div class="w-full md:w-1/2 space-y-6 text-center md:text-left relative z-10">
                      <div class="flex items-center justify-center md:justify-start gap-3">
-                         <span class="inline-block px-4 py-1 bg-el-wood text-white text-sm font-bold tracking-widest rounded-full shadow-md">線上體驗</span>
-                         <span class="text-el-wood font-serif font-bold">互動小遊戲</span>
+                         <span class="inline-block px-4 py-1 bg-el-metal text-white text-sm font-bold tracking-widest rounded-full shadow-md">線上體驗</span>
+                         <span class="text-el-metal font-serif font-bold">互動小遊戲</span>
                      </div>
                      <h2 class="text-3xl md:text-4xl font-serif font-bold text-stone-800 leading-tight">
-                        水之定力 <br/> <span class="text-el-wood">金雞獨立挑戰</span>
+                        水之定力 <br/> <span class="text-el-metal">金雞獨立</span>
                      </h2>
                      <p class="text-stone-600 text-lg leading-relaxed font-light">
-                         水行能量主「腎」，掌管深層穩定與身體根基。靜止之中，身體其實持續在調整，任何失衡都無所遁形。<br><br>
-                         <strong>你能在站立中保持平衡不動嗎？</strong> 透過站立挑戰，測試你是否平衡穩定！
+                        『腎為先天之本，腎氣充盈則穩如靜水。』<br>水行對應臟腑為腎膀胱，與骨骼的生長相關。<br>
+                        <strong>透過站立挑戰</strong>，測試你是否平衡穩定
                      </p>
                      <div class="pt-4 flex flex-col items-center md:items-start">
-                         <a href="https://bit.ly/3NgusHr" target="_blank" class="inline-flex items-center gap-3 bg-stone-800 hover:bg-el-wood text-white px-8 py-4 rounded-full text-lg font-bold tracking-wider transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+                         <a href="https://aliztw.github.io/water-game/" target="_blank" class="inline-flex items-center gap-3 bg-stone-800 hover:bg-el-metal text-white px-8 py-4 rounded-full text-lg font-bold tracking-wider transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
                              <i data-lucide="gamepad-2" class="w-5 h-5"></i>
                              <span>進入遊戲</span>
                          </a>
@@ -606,7 +608,7 @@
     <!-- Footer -->
     <footer id="footer" class="bg-stone-900 text-stone-400 py-16 mt-auto">
         <div class="app-container">
-            <div class="grid md:grid-cols-4 gap-12 mb-12 border-b border-stone-800 pb-12">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12 border-b border-stone-800 pb-12">
                 <div class="col-span-1 md:col-span-2 space-y-4">
                     <h3 class="text-white text-2xl md:text-3xl lg:text-4xl font-serif">2026 台灣精油芳療年會</h3>
                     <p class="text-sm md:text-base lg:text-lg leading-relaxed max-w-md">致力於推廣正統芳香療法，結合東方五行哲學與西方科學實證，為現代人尋找身心平衡的自然處方。</p>
@@ -614,18 +616,18 @@
                 <div class="space-y-4">
                     <h4 class="text-white font-bold tracking-wider text-base md:text-lg lg:text-xl uppercase">快速連結</h4>
                     <ul class="space-y-2 text-sm md:text-base lg:text-base">
-                        <li><a href="#" class="hover:text-amber-500">年會限定優惠</a></li>
+                        <li><a href="#" class="hover:text-el-metal">年會限定優惠</a></li>
                     </ul>
                 </div>
                 <div class="space-y-4">
                     <h4 class="text-white font-bold tracking-wider text-base md:text-lg lg:text-xl uppercase">聯絡我們</h4>
-                    <div class="flex space-x-4">
-                        <a href="https://www.facebook.com/ALIZTW" class="flex-shrink-0 w-10 h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-full bg-stone-800 flex items-center justify-center hover:bg-amber-600 hover:text-white transition-all"><i data-lucide="facebook" class="w-5 h-5"></i></a>
-                        <a href="https://www.instagram.com/aliz_aromacreator/" class="flex-shrink-0 w-10 h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-full bg-stone-800 flex items-center justify-center hover:bg-amber-600 hover:text-white transition-all"><i data-lucide="instagram" class="w-5 h-5"></i></a>
-                        <a href="https://lin.ee/ZwEOveq" class="flex-shrink-0 w-10 h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-full bg-stone-800 flex items-center justify-center hover:bg-amber-600 hover:text-white overflow-hidden group transition-all">
-                            <img src="./line.png" alt="LINE" class="w-[60%] h-[60%] object-contain opacity-90 group-hover:opacity-100 transition-opacity">
+                    <div class="flex flex-wrap gap-4">
+                        <a href="https://www.facebook.com/ALIZTW" target="_blank" class="flex-shrink-0 w-10 h-10 rounded-full bg-stone-800 flex items-center justify-center hover:bg-el-metal hover:text-white transition-all"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                        <a href="https://www.instagram.com/aliz_aromacreator/" target="_blank" class="flex-shrink-0 w-10 h-10 rounded-full bg-stone-800 flex items-center justify-center hover:bg-el-metal hover:text-white transition-all"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                        <a href="https://lin.ee/ZwEOveq" target="_blank" class="flex-shrink-0 w-10 h-10 rounded-full bg-stone-800 flex items-center justify-center hover:bg-el-metal hover:text-white overflow-hidden group transition-all">
+                            <div class="w-full h-full flex items-center justify-center text-xs font-bold">LINE</div>
                         </a>
-                        <a href="https://www.aliztwshop.com/" class="flex-shrink-0 w-10 h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-full bg-stone-800 flex items-center justify-center hover:bg-amber-600 hover:text-white transition-all"><i data-lucide="globe" class="w-5 h-5"></i></a>
+                        <a href="https://www.aliztwshop.com/" target="_blank" class="flex-shrink-0 w-10 h-10 rounded-full bg-stone-800 flex items-center justify-center hover:bg-el-metal hover:text-white transition-all"><i data-lucide="globe" class="w-5 h-5"></i></a>
                     </div>
                 </div>
             </div>
@@ -641,7 +643,9 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Initial Lucide Icons
             lucide.createIcons();
+
             const navbar = document.getElementById('navbar');
             const navContainer = document.getElementById('nav-container');
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -678,7 +682,16 @@
                          mobileMenuBtn.innerHTML = '<i data-lucide="menu"></i>';
                          lucide.createIcons();
                     }
-                    targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
+                    
+                    // 手動修正捲動：精確計算目標元素的絕對位置並扣除導覽列高度
+                    const navHeight = navbar.offsetHeight;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
                 }
             };
 
@@ -687,6 +700,5 @@
             updateNavbar();
         });
     </script>
-<script type="module" src="/index.tsx"></script>
 </body>
 </html>
